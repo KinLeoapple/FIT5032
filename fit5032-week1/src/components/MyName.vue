@@ -1,6 +1,15 @@
+<script setup>
+defineProps({
+    name: {
+        type: String,
+        default: "Haojun"
+    }
+})
+</script>
+
 <template>
     <div class="myName">Hello, 
-        <span>Haojun</span>. 
+        <span>{{ name }}</span>. 
         This is your first vue app.</div>
 </template>
 
