@@ -1,5 +1,6 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import MyName from './components/MyName.vue';
 import TheWelcome from './components/TheWelcome.vue'
 </script>
 
@@ -9,6 +10,7 @@ import TheWelcome from './components/TheWelcome.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
+      <MyName />
     </div>
   </header>
 
