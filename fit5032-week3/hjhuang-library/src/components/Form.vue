@@ -16,14 +16,18 @@
                                 @blur="() => validateName(true)"
                                 @input="() => validateName(false)"
                                  v-model="formData.username"/>
+                                 <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
                         </div>
-                        <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
                         <div class="col-md-6 my-input">
                             <label for="password" class="form-label">
                                 Password
                             </label>
                             <input type="password" class="form-control"
-                                id="password" v-model="formData.password"/>
+                                id="password" 
+                                @blur="() => validatePassword(true)"
+                                @input="() => validatePassword(false)"
+                                v-model="formData.password"/>
+                                <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -108,7 +112,7 @@ const errors = ref({
 });
 
 const validateName = (blur) => { 
-    if (formData.value.username.value.length < 3) {
+    if (formData.value.username.length < 3) {
         if (blur) {
             errors.value.username = "Name must be at least 3 characters";
         } else {
@@ -117,12 +121,48 @@ const validateName = (blur) => {
     }
  }
 
+ const validatePassword = (blur) => {
+    const password = formData.value.password;
+    const minLength = 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+ 
+    if (password.length < minLength) {
+        if (blur) {
+            errors.value.password = `Password must be at least ${minLength} characaters long`;
+        }
+    } else if (!hasUppercase) {
+        if (blur) {
+            errors.value.password = `Password must contain at least one uppercase letter`;
+        }
+    } else if (!hasLowercase) {
+        if (blur) {
+            errors.value.password = `Password must contain at least one lowercase letter`;
+        }
+    } else if (!hasNumber) {
+        if (blur) {
+            errors.value.password = `Password must contain at least one number`;
+        }
+    } else if (!hasSpecialChar) {
+        if (blur) {
+            errors.value.password = `Password must contain at least one special character`;
+        }
+    }
+}
+
 const submittedCards = ref([]);
 
 const submitForm = () => {
-    submittedCards.value.push({
-        ...formData.value
-    });
+    validateName(true);
+    validatePassword(true);
+    if (!errors.value.username && !errors.value.password) {
+        submittedCards.value.push({
+            ...formData.value
+        });
+        claerForm();
+    }
 };
 </script>
 
