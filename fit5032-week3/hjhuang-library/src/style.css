@@ -21,5 +21,8 @@ select[id="gender"] {
     background-color: #d3d3d3;
 }
 
-@include media-breakpoint-up(sm) {
+@media screen and (max-width: 600px) {
+    .my-input {
+        width: 50% !important;
+    }
 }

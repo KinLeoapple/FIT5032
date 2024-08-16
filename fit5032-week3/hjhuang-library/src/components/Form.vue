@@ -1,27 +1,4 @@
 <template>
-    <!-- <div class="form">
-        <h1>User Information Form / Credentials</h1>
-        <form>
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
-            
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"><br>
-            
-            <label for="isAustralian">Australian Resident?</label><br>
-            <input type="checkbox" id="isAustralian" name="isAustralian"><br>
-            
-            <label for="reason">Reason For Joining:</label><br>
-            <textarea id="reason" name="reason" rows="3"></textarea><br>
-            
-            <label for="gender">Gender</label><br>
-            <select id="gender">
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-                <option value="other">Other</option>
-            </select>
-        </form>
-    </div> -->
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -30,14 +7,18 @@
                 </h1>
                 <form @submit.prevent="submitForm">
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 my-input">
                             <label for="username" class="form-label">
                                 Username
                             </label>
                             <input type="text" class="form-control"
-                                id="username" v-model="formData.username"/>
+                                id="username"
+                                @blur="() => validateName(true)"
+                                @input="() => validateName(false)"
+                                 v-model="formData.username"/>
                         </div>
-                        <div class="col-md-6">
+                        <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
+                        <div class="col-md-6 my-input">
                             <label for="password" class="form-label">
                                 Password
                             </label>
@@ -117,6 +98,24 @@ const formData = ref({
     reason: '',
     gender: ''
 });
+
+const errors = ref({
+    username: null,
+    password: null,
+    resident: null,
+    reason: null,
+    gender: null
+});
+
+const validateName = (blur) => { 
+    if (formData.value.username.value.length < 3) {
+        if (blur) {
+            errors.value.username = "Name must be at least 3 characters";
+        } else {
+            errors.value.username = null;
+        }
+    }
+ }
 
 const submittedCards = ref([]);
 
