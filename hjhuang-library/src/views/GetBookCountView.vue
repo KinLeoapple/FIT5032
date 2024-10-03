@@ -7,9 +7,13 @@ const error = ref(null);
 
 const getBookCount = async () => {
   try {
-    const response = await axios.get()
+    const response = await axios.get("https://countbooks-kc5ola4uga-uc.a.run.app");
+    count.value = response.data.count;
+    error.value = null;
   } catch (error) {
-
+    console.error("Error fetching book count:", error);
+    error.value = error;
+    count.value = null;
   }
 }
 </script>
