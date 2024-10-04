@@ -1,10 +1,14 @@
 <script setup>
 import BHeader from './components/BHeader.vue'
+
+const showHeader = () => {
+  return this.$route.name !== 'CountBookAPI';
+}
 </script>
 
 <template>
   <div class="container">
-    <header>
+    <header v-if="showHeader">
       <BHeader />
     </header>
 
