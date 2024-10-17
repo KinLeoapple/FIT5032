@@ -1,5 +1,5 @@
 <script setup>
-import BHeader from './components/BHeader.vue'
+import BHeader from '@/components/BHeader.vue'
 
 const showHeader = () => {
   return this.$route.name !== 'CountBookAPI';
